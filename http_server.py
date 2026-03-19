@@ -35,7 +35,14 @@ class AuthHandler(http.server.SimpleHTTPRequestHandler):
 
 def run_server(port, directory, auth_token):
     handler = partial(AuthHandler, auth_token=auth_token, directory=directory)
-    ip = subprocess.check_output("ip route get 1 | awk '{print $7}'", shell=True).decode().strip()
+    try:
+        ip = subprocess.check_output("ip route get 1 | awk '{print $7}'", shell=True).decode().strip()
+    except Exception:
+        import socket
+        # Fallback for non-Linux systems (macOS, BSD)
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect(("8.8.8.8", 80))
+            ip = s.getsockname()[0]
     with socketserver.TCPServer((ip, port), handler) as httpd:
         print(f"Serving at port {port} with authentication")
         httpd.serve_forever()
