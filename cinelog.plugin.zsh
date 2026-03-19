@@ -13,7 +13,7 @@ BOLD='\e[1m'
 BASIC_RED='\e[31m'
 BASIC_GREEN='\e[32m'
 BASIC_BLUE='\e[34m'
-BAISC_MAGENTA='\e[35m'
+BASIC_MAGENTA='\e[35m'
 BASIC_CYAN='\e[36m'
 # Pastel Colors
 PASTEL_RED='\e[38;2;255;105;97m'
